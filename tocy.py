@@ -41,6 +41,9 @@ def make_toc(readme, dryrun=True):
             rest = re.sub(r'[^-\w]', '', rest)  # squeeze other chars
             toc += ''.join((' '*(htl-1)*4, '* ',
                            '[',strs.groups()[1].strip(),'](#', rest,')'))+'\n'
+    else:
+        if skip:
+            raise ValueError('``` block is open.')
 
     if pos != -1 and dryrun is False:
         # There is a \n originally, the last \n in toc is used here.
@@ -62,6 +65,6 @@ if __name__ == '__main__':
         else:
             make_toc(sys.argv[1], False)
     except Exception as e:
-        print(repr(e))
+        print('Err:', str(e))
 
 
