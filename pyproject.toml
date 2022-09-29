@@ -1,0 +1,20 @@
+[project]
+name = 'tocy'
+version = '0.13'
+authors = [
+  { name='xinlin-z', email='xinlin.zhang@hotmail.com' },
+]
+description = """To generate Table of Content (TOC)
+ for markdown file (like README.md) automatically"""
+readme = 'README.md'
+requires-python = '>=3.8'
+classifiers = [
+    'Programming Language :: Python :: 3',
+    'License :: OSI Approved :: MIT License',
+    'Operating System :: OS Independent',
+]
+
+
+[project.urls]
+homepage = 'https://github.com/xinlin-z/tocy'
+
