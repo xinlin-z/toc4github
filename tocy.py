@@ -42,19 +42,18 @@ def _make_toc(lines):
         if skip:
             raise ValueError('``` block is open.')
 
-    toc = toc.rstrip('\n') if pos!=-1 else ''
-    return pos, toc
+    return pos, toc.rstrip('\n')
 
 
 @singledispatch
 def make_toc(lines):
-    """Return placehoder {tocy}'s position and TOC content."""
-    return _make_toc(lines)
+    """Return the TOC contents."""
+    return _make_toc(lines)[1]
 
 
 @make_toc.register(str)
 def _(strlines):
-    return _make_toc(strlines.split('\n'))
+    return _make_toc(strlines.split('\n'))[1]
 
 
 # $ python3 tocy.py [--dryrun] path/to/README.md
@@ -71,7 +70,7 @@ if __name__ == '__main__':
     try:
         with open(args.mdfile) as f:
             lines = f.readlines()
-        pos, toc = make_toc(lines)
+        pos, toc = _make_toc(lines)
         if pos == -1:
             raise ValueError('no placeholder found.')
         if args.dryrun:

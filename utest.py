@@ -65,11 +65,9 @@ cooked = ('* [Test](#Test)\n    '
 class test_make_toc(unittest.TestCase):
 
     def test_make_toc_1(self):
-        pos,toc = make_toc(raw)
-        self.assertEqual(pos, 1)
+        toc = make_toc(raw)
         self.assertEqual(toc, cooked)
-        pos,toc = make_toc(raw.split('\n'))
-        self.assertEqual(pos, 1)
+        toc = make_toc(raw.split('\n'))
         self.assertEqual(toc, cooked)
 
     def test_make_toc_2(self):
@@ -88,18 +86,6 @@ class test_make_toc(unittest.TestCase):
         123456
         """
         self.assertRaises(ValueError, make_toc, raw)
-
-    def test_make_toc_4(self):
-        raw = '#123abc'
-        pos,toc = make_toc(raw)
-        self.assertEqual(pos, -1)
-        self.assertEqual(toc, '')
-
-    def test_make_toc_5(self):
-        raw = '{tocy}'
-        pos,toc = make_toc(raw)
-        self.assertEqual(pos, 0)
-        self.assertEqual(toc, '')
 
 
 if __name__ == '__main__':
