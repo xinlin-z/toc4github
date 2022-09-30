@@ -1,66 +1,57 @@
 * [Tocy](#Tocy)
-    * [Usage](#Usage)
-    * [Test](#Test)
+    * [Installation](#Installation)
+    * [Command Line Usage](#Command-Line-Usage)
+    * [In Code Usage](#In-Code-Usage)
     * [Showcase](#Showcase)
 
 # Tocy
 
-A tiny tool to automatically create Table Of Content (TOC) for README.md
-of Github.com.
+A tiny tool to automatically create Table Of Contents (TOC) for markdown
+file, like README.md of Github.com.
 
-## Usage
+## Installation
+
+``` shell
+$ pip3 install tocy
+```
+
+## Command Line Usage
 
 Insert a placeholder `{tocy}` in the proper line of README.md, then:
 
 ``` shell
-$ python3 tocy.py <path/to/README.md>
+$ python3 -m tocy <path/to/README.md>
 ```
 
-You can also use `--dryrun` to check TOC lines first:
+You can also use `--dryrun` to check the generated TOC first:
 
 ``` shell
-$ python3 tocy.py --dryrun <path/to/README.md>
+$ python3 -m tocy --dryrun <path/to/README.md>
 ```
 
 > If no placeholder found in README.md, dryrun is True! If more than one
-placeholders found, the last one take effect!
+placeholders found, the last one take effect! Placehoder should be a
+single line by itself.
+
+## In Code Usage
 
 Or, you can call `make_toc` in your code:
 
 ``` python
-...
-from tocy import make_toc
-...
-print(make_toc(readme_file))
-make_toc(readme_file, dryrun=False)
-...
+>>> from tocy import make_toc
+>>> lines = """
+... # head1
+... ## head2
+... ### head3
+... """
+>>> print(make_toc(lines))
+* [head1](#head1)
+    * [head2](#head2)
+        * [head3](#head3)
 ```
 
-## Test
-
-``` shell
-$ python3 tocy.py --dryrun test/README.md
-* [Test](#Test)
-    * [header](#header)
-        * [head 3](#head-3)
-            * [head 4](#head-4)
-                * [head 5](#head-5)
-                    * [head 6](#head-6)
-* [_abc](#_abc)
-* [a & b & c](#a--b--c)
-* [a       c](#a-------c)
-* [a ( c )](#a--c-)
-* [a(c)](#ac)
-* [a.,.,!@#$%^&*().,.7](#a7)
-* [*italic 12345*](#italic-12345)
-* [**bold 12345**](#bold-12345)
-* [_italic2 12345_](#italic2-12345)
-* [__bold2 12345__](#bold2-12345)
-* [~cross out~](#cross-out)
-* [~~cross out 2~~](#cross-out-2)
-* [**~bold cross out~**](#bold-cross-out)
-* [__~~blod cross out 2~~__](#blod-cross-out-2)
-```
+`make_toc` only return the generated TOC, and you should insert them to
+your markdown file anywhere you like by yourself.
 
 ## Showcase
 
