@@ -17,17 +17,22 @@ $ pip3 install tocy
 
 ## Command Line Usage
 
-Insert a placeholder `{tocy}` in the proper line of README.md, then:
+Insert a placeholder `{tocy}` in the proper line of README.md, this
+is the start line of TOC, then run:
 
 ``` shell
 $ python3 -m tocy <path/to/README.md>
 ```
+
+Now, the placeholder is replaced by TOC, markdown file is updated.
 
 You can also use `--dryrun` to check the generated TOC first:
 
 ``` shell
 $ python3 -m tocy --dryrun <path/to/README.md>
 ```
+
+This would only print out TOC, nothing is changed.
 
 > If no placeholder found in README.md, dryrun is True! If more than one
 placeholders found, the last one take effect! Placehoder should be a
