@@ -3,9 +3,10 @@ import sys
 import re
 import argparse
 from functools import singledispatch
+from typing import Iterable, Union
 
 
-def _make_toc(lines):
+def _make_toc(lines: Iterable[str]) -> tuple[int,str]:
     toc = ''
     pos = -1
     skip = 0
@@ -25,7 +26,7 @@ def _make_toc(lines):
         if line.strip().lower() == '{tocy}':
             pos = i
             continue
-        # search and join toc
+        # search and join
         if strs:=re.match(r'\s*(#+)(.*)',line):
             h = strs.group(1)
             if (hn:=len(h)) > 6:  # max head level is 6
@@ -46,13 +47,13 @@ def _make_toc(lines):
 
 
 @singledispatch
-def make_toc(lines):
+def make_toc(lines: Union[list[str],str]) -> str:
     """Return the TOC contents."""
     return _make_toc(lines)[1]
 
 
-@make_toc.register(str)
-def _(strlines):
+@make_toc.register
+def _(strlines: str) -> str:
     return _make_toc(strlines.split('\n'))[1]
 
 
@@ -64,7 +65,7 @@ if __name__ == '__main__':
     parser.add_argument('--dryrun', action='store_true',
                         help='do not really write input file')
     parser.add_argument('mdfile',
-                        help='input markdown file, like readme.md')
+                        help='input markdown file, like README.md')
     args = parser.parse_args()
 
     try:
