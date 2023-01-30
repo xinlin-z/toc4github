@@ -12,7 +12,7 @@ def _make_toc(lines: Iterable[str]) -> tuple[int,str]:
     skip = 0
     for i,line in enumerate(lines):
         # skip empty line
-        if (line:=line.strip()) == '':
+        if(line:=line.strip()) == '':
             continue
         # skip code block started with 4 space
         if line.startswith(' '*4):
@@ -22,12 +22,12 @@ def _make_toc(lines: Iterable[str]) -> tuple[int,str]:
             skip = abs(skip-1)
         if skip:
             continue
-        # try to find placeholder {tocy} and skip
-        if line.strip().lower() == '{tocy}':
+        # try to find placeholder {toc} and skip
+        if line.strip().lower() == '{toc}':
             pos = i
             continue
         # search and join
-        if strs:=re.match(r'\s*(#+)(.*)',line):
+        if strs:=re.match(r'\s*(#+)\s(.*)',line):
             h = strs.group(1)
             if (hn:=len(h)) > 6:  # max head level is 6
                 continue
@@ -57,15 +57,18 @@ def _(strlines: str) -> str:
     return _make_toc(strlines.split('\n'))[1]
 
 
-# $ python3 tocy.py [--dryrun] path/to/README.md
+# usgae:
+# $ python3 toc4github.py [--dryrun] path/to/README.md
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('-V', action='version',
-                        version='tocy V0.13 by xinlin-z')
+                        version='toc4github V0.15 by xinlin-z with love')
     parser.add_argument('--dryrun', action='store_true',
-                        help='do not really write input file')
+                        help='do not really write, only print out')
+    parser.add_argument('--title', action='store_true',
+                        help='add title: Table of Contents')
     parser.add_argument('mdfile',
-                        help='input markdown file, like README.md')
+                        help='the input markdown file, like README.md')
     args = parser.parse_args()
 
     try:
@@ -73,7 +76,8 @@ if __name__ == '__main__':
             lines = f.readlines()
         pos, toc = _make_toc(lines)
         if pos == -1:
-            raise ValueError('no placeholder found.')
+            raise ValueError('No {toc} placeholder found!')
+        toc = ('','# Table of Contents\n\n')[args.title] + toc
         if args.dryrun:
             print(toc)
         else:

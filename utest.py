@@ -1,5 +1,5 @@
 import unittest
-from tocy import make_toc
+from toc4github import make_toc
 import os
 import subprocess
 
@@ -14,7 +14,7 @@ def shcmd(cmd, shell=False):
 
 
 raw = """
-{tocy}
+{toc}
 
 # Test
 ## header
@@ -74,10 +74,20 @@ class test_make_toc(unittest.TestCase):
         fn = '__tocy_test.txt'
         with open(fn,'w') as f:
             f.write(raw)
-        shcmd('python3 tocy.py %s' % fn)
+        shcmd('python3 toc4github.py %s' % fn)
         with open(fn) as f:
             cont = f.read()
-        self.assertEqual(cont, '\n'+cooked+raw[7:])
+        self.assertEqual(cont, '\n'+cooked+raw[6:])
+        os.remove(fn)
+
+    def test_make_toc_21(self):
+        fn = '__tocy_test.txt'
+        with open(fn,'w') as f:
+            f.write(raw)
+        shcmd('python3 toc4github.py --title %s' % fn)
+        with open(fn) as f:
+            cont = f.read()
+        self.assertEqual(cont, '\n'+'# Table of Contents\n\n'+cooked+raw[6:])
         os.remove(fn)
 
     def test_make_toc_3(self):
@@ -86,6 +96,26 @@ class test_make_toc(unittest.TestCase):
         123456
         """
         self.assertRaises(ValueError, make_toc, raw)
+
+    def test_make_toc_4(self):
+        s = "# 中文效果"
+        self.assertEqual('* ['+s[2:]+'](#'+s[2:]+')', make_toc(s))
+        s = "## 中文效果"
+        self.assertEqual('    * ['+s[3:]+'](#'+s[3:]+')', make_toc(s))
+        s = "# 中EN混Mix"
+        self.assertEqual('* ['+s[2:]+'](#'+s[2:]+')', make_toc(s))
+        s = "## 中EN混Mix"
+        self.assertEqual('    * ['+s[3:]+'](#'+s[3:]+')', make_toc(s))
+
+    def test_make_toc_5(self):
+        s = '#abcde'
+        self.assertEqual(make_toc(s), '')
+        s = '#  abcde'
+        self.assertEqual(make_toc(s), '* [abcde](#abcde)')
+        s = ' #abcde'
+        self.assertEqual(make_toc(s), '')
+        s = '  #  abcde'
+        self.assertEqual(make_toc(s), '* [abcde](#abcde)')
 
 
 if __name__ == '__main__':
