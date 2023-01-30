@@ -13,6 +13,8 @@ file, like README.md of Github.com.
 
 # Install
 
+> I'm still working on it, right now, please git clone the source to use!
+
 ``` shell
 $ pip install toc4github
 ```
@@ -23,18 +25,14 @@ Insert a placeholder `{toc}` in the proper line of README.md, this
 is the start line of TOC, then run:
 
 ``` shell
-$ python3 -m toc4github <path/to/README.md>
+$ python3 -m toc4github [--dryrun] [--title] <path/to/README.md>
+$ python3 toc4github.py [--dryrun] [--title] <path/to/README.md>
 ```
 
 Now, the placeholder is replaced by TOC, markdown file is updated.
 
-You can also use `--dryrun` to check the generated TOC first:
-
-``` shell
-$ python3 -m toc4github --dryrun <path/to/README.md>
-```
-
-This would only print out TOC, nothing is changed.
+You can use `--dryrun` to check the generated TOC first, this option
+would only print out TOC, nothing is changed.
 
 `--title` option is used if you need a title just before TOC. The title
 is always `Table of Contents`.
