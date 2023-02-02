@@ -1,10 +1,15 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+
 [project]
-name = 'tocy'
-version = '0.13'
+name = 'toc4github'
+version = '0.15'
 authors = [
   { name='xinlin-z', email='xinlin.zhang@hotmail.com' },
 ]
-description = 'To generate Table of Content (TOC) for markdown file (like README.md) automatically'
+description = 'Generate Table of Contents (TOC) for markdown file (like README.md) automatically'
 readme = 'README.md'
 requires-python = '>=3.8'
 classifiers = [
@@ -15,5 +20,5 @@ classifiers = [
 
 
 [project.urls]
-homepage = 'https://github.com/xinlin-z/tocy'
-
+homepage = 'https://github.com/xinlin-z/toc4github'
+'Bug Tracker' = 'https://github.com/xinlin-z/toc4github/issues'

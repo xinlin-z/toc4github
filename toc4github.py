@@ -57,15 +57,13 @@ def _(strlines: str) -> str:
     return _make_toc(strlines.split('\n'))[1]
 
 
-# usgae:
-# $ python3 toc4github.py [--dryrun] path/to/README.md
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('-V', action='version',
                         version='toc4github V0.15 by xinlin-z with love')
-    parser.add_argument('--dryrun', action='store_true',
-                        help='do not really write, only print out')
-    parser.add_argument('--title', action='store_true',
+    parser.add_argument('-d','--dryrun', action='store_true',
+                        help='do not really do write, only print out')
+    parser.add_argument('-t','--title', action='store_true',
                         help='add title: Table of Contents')
     parser.add_argument('mdfile',
                         help='the input markdown file, like README.md')
