@@ -59,7 +59,7 @@ def _(strlines: str) -> str:
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('-V', action='version',
+    parser.add_argument('-V', '--version', action='version',
                         version='toc4github V0.15 by xinlin-z with love')
     parser.add_argument('-d','--dryrun', action='store_true',
                         help='do not really do write, only print out')
