@@ -57,15 +57,18 @@ def _(strlines: str) -> str:
     return _make_toc(strlines.split('\n'))[1]
 
 
+_VER = 'toc4github V0.16 by xinlin-z with love'\
+       ' (https://github.com/xinlin-z/toc4github)'
+
+
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('-V', '--version', action='version',
-                        version='toc4github V0.15 by xinlin-z with love')
+    parser.add_argument('-V', '--version', action='version', version=_VER)
     parser.add_argument('-d','--dryrun', action='store_true',
-                        help='do not really do write, only print out')
+                        help='do not really update, only show toc')
     parser.add_argument('-t','--title', action='store_true',
-                        help='add title: Table of Contents')
-    parser.add_argument('mdfile',
+                        help='add a fixed title: Table of Contents')
+    parser.add_argument('markdown_file',
                         help='the input markdown file, like README.md')
     args = parser.parse_args()
 
