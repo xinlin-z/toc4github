@@ -81,7 +81,7 @@ class test_make_toc(unittest.TestCase):
         os.remove(fn)
 
     def test_make_toc_21(self):
-        fn = '__tocy_test.txt'
+        fn = '__toc4github_test.txt'
         with open(fn,'w') as f:
             f.write(raw)
         shcmd('python3 toc4github.py --title %s' % fn)

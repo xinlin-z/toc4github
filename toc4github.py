@@ -73,7 +73,7 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     try:
-        with open(args.mdfile) as f:
+        with open(args.markdown_file) as f:
             lines = f.readlines()
         pos, toc = _make_toc(lines)
         if pos == -1:
@@ -83,7 +83,7 @@ if __name__ == '__main__':
             print(toc)
         else:
             lines[pos] = toc + '\n'
-            with open(args.mdfile,'w') as f:
+            with open(args.markdown_file,'w') as f:
                 f.write(''.join(lines))
     except Exception as e:
         print('Err:', str(e))
