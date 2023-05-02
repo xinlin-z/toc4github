@@ -1,4 +1,10 @@
 #!/usr/bin/env python3
+"""
+Author:   xinlin-z
+Github:   https://github.com/xinlin-z/toc4github
+Blog:     https://cs.pynote.net
+License:  MIT
+"""
 import sys
 import re
 import argparse
@@ -26,13 +32,13 @@ def _make_toc(lines: Iterable[str]) -> tuple[int,str]:
         if line.strip().lower() == '{toc}':
             pos = i
             continue
-        # search and join
+        # line search and make toc
         if strs:=re.match(r'\s*(#+)\s(.*)',line):
             h = strs.group(1)
             if (hn:=len(h)) > 6:  # max head level is 6
                 continue
             rest = strs.group(2).strip()
-            # git rid of markdown syntax elements ~*_
+            # remove markdown syntax elements ~*_
             while a:=re.search(r'([~*_]{1,2})(.*)\1',rest):
                 rest = rest[:a.start()] + a.group(2) + rest[a.end():]
             rest = re.sub(r'\s', '-', rest)  # space --> -
@@ -43,7 +49,7 @@ def _make_toc(lines: Iterable[str]) -> tuple[int,str]:
         if skip:
             raise ValueError('``` block is open.')
 
-    return pos, toc.rstrip('\n')
+    return pos, toc
 
 
 @singledispatch
@@ -65,7 +71,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('-V', '--version', action='version', version=_VER)
     parser.add_argument('-d','--dryrun', action='store_true',
-                        help='do not really update, only show toc')
+                        help='do not touch file, only show the TOC')
     parser.add_argument('-t','--title', action='store_true',
                         help='add a fixed title: Table of Contents')
     parser.add_argument('markdown_file',
@@ -76,15 +82,15 @@ if __name__ == '__main__':
         with open(args.markdown_file) as f:
             lines = f.readlines()
         pos, toc = _make_toc(lines)
-        if pos == -1:
-            raise ValueError('No {toc} placeholder found!')
         toc = ('','# Table of Contents\n\n')[args.title] + toc
         if args.dryrun:
-            print(toc)
-        else:
-            lines[pos] = toc + '\n'
-            with open(args.markdown_file,'w') as f:
-                f.write(''.join(lines))
+            print(toc, end='')
+            sys.exit(0)
+        if pos == -1:
+            raise ValueError('No {toc} placeholder found!')
+        lines[pos] = toc
+        with open(args.markdown_file,'w') as f:
+            f.write(''.join(lines))
     except Exception as e:
         print('Err:', str(e))
         sys.exit(1)

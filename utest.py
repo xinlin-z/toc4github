@@ -4,7 +4,7 @@ import os
 import subprocess
 
 
-def shcmd(cmd, shell=False):
+def cmd(cmd, shell=False):
     """execute a cmd without shell, return exitcode"""
     proc = subprocess.run(cmd if shell else cmd.split(),
                           shell=shell,
@@ -13,7 +13,7 @@ def shcmd(cmd, shell=False):
     return proc.returncode
 
 
-raw = """
+raw = """\
 {toc}
 
 # Test
@@ -40,12 +40,12 @@ raw = """
 # **~bold cross out~**
 # __~~blod cross out 2~~__
 """
-cooked = ('* [Test](#Test)\n    '
-          '* [header](#header)\n        '
-          '* [head 3](#head-3)\n            '
-          '* [head 4](#head-4)\n                '
-          '* [head 5](#head-5)\n                    '
-          '* [head 6](#head-6)\n'
+cooked = ('* [Test](#Test)\n'
+          '    * [header](#header)\n'
+          '        * [head 3](#head-3)\n'
+          '            * [head 4](#head-4)\n'
+          '                * [head 5](#head-5)\n'
+          '                    * [head 6](#head-6)\n'
           '* [_abc](#_abc)\n'
           '* [a & b & c](#a--b--c)\n'
           '* [a       c](#a-------c)\n'
@@ -59,7 +59,7 @@ cooked = ('* [Test](#Test)\n    '
           '* [~cross out~](#cross-out)\n'
           '* [~~cross out 2~~](#cross-out-2)\n'
           '* [**~bold cross out~**](#bold-cross-out)\n'
-          '* [__~~blod cross out 2~~__](#blod-cross-out-2)')
+          '* [__~~blod cross out 2~~__](#blod-cross-out-2)\n')
 
 
 class test_make_toc(unittest.TestCase):
@@ -71,23 +71,23 @@ class test_make_toc(unittest.TestCase):
         self.assertEqual(toc, cooked)
 
     def test_make_toc_2(self):
-        fn = '__tocy_test.txt'
+        fn = '__toc4github_test2.txt'
         with open(fn,'w') as f:
             f.write(raw)
-        shcmd('python3 toc4github.py %s' % fn)
+        cmd('python3 toc4github.py %s' % fn)
         with open(fn) as f:
             cont = f.read()
-        self.assertEqual(cont, '\n'+cooked+raw[6:])
+        self.assertEqual(cont, cooked+raw[6:])
         os.remove(fn)
 
     def test_make_toc_21(self):
-        fn = '__toc4github_test.txt'
+        fn = '__toc4github_test21.txt'
         with open(fn,'w') as f:
             f.write(raw)
-        shcmd('python3 toc4github.py --title %s' % fn)
+        cmd('python3 toc4github.py --title %s' % fn)
         with open(fn) as f:
             cont = f.read()
-        self.assertEqual(cont, '\n'+'# Table of Contents\n\n'+cooked+raw[6:])
+        self.assertEqual(cont, '# Table of Contents\n\n'+cooked+raw[6:])
         os.remove(fn)
 
     def test_make_toc_3(self):
@@ -99,24 +99,25 @@ class test_make_toc(unittest.TestCase):
 
     def test_make_toc_4(self):
         s = "# 中文效果"
-        self.assertEqual('* ['+s[2:]+'](#'+s[2:]+')', make_toc(s))
+        self.assertEqual('* ['+s[2:]+'](#'+s[2:]+')\n', make_toc(s))
         s = "## 中文效果"
-        self.assertEqual('    * ['+s[3:]+'](#'+s[3:]+')', make_toc(s))
+        self.assertEqual('    * ['+s[3:]+'](#'+s[3:]+')\n', make_toc(s))
         s = "# 中EN混Mix"
-        self.assertEqual('* ['+s[2:]+'](#'+s[2:]+')', make_toc(s))
+        self.assertEqual('* ['+s[2:]+'](#'+s[2:]+')\n', make_toc(s))
         s = "## 中EN混Mix"
-        self.assertEqual('    * ['+s[3:]+'](#'+s[3:]+')', make_toc(s))
+        self.assertEqual('    * ['+s[3:]+'](#'+s[3:]+')\n', make_toc(s))
 
     def test_make_toc_5(self):
         s = '#abcde'
         self.assertEqual(make_toc(s), '')
         s = '#  abcde'
-        self.assertEqual(make_toc(s), '* [abcde](#abcde)')
+        self.assertEqual(make_toc(s), '* [abcde](#abcde)\n')
         s = ' #abcde'
         self.assertEqual(make_toc(s), '')
         s = '  #  abcde'
-        self.assertEqual(make_toc(s), '* [abcde](#abcde)')
+        self.assertEqual(make_toc(s), '* [abcde](#abcde)\n')
 
 
 if __name__ == '__main__':
     unittest.main()
+
