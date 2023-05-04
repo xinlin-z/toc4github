@@ -5,12 +5,12 @@ build-backend = "hatchling.build"
 
 [project]
 name = 'toc4github'
-version = '0.15'
+version = '0.16'
 requires-python = '>=3.8'
-description = 'Generate Table of Contents (TOC) for markdown file (like README.md) automatically'
+description = 'Generate Table of Contents (TOC) for Markdown file (like README.md) automatically'
 readme = 'README.md'
 license = { file='LICENSE' }
-keywords = ['toc', 'markdown', 'github', 'README.md']
+keywords = ['TOC', 'markdown', 'github', 'README.md']
 authors = [
   { name='xinlin-z', email='xinlin.zhang@hotmail.com' },
 ]
