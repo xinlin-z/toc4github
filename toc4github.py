@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 """
+To generator TOC for Markdown file, like README.md of Github.
+
 Author:   xinlin-z
 Github:   https://github.com/xinlin-z/toc4github
 Blog:     https://cs.pynote.net
@@ -9,7 +11,7 @@ import sys
 import re
 import argparse
 from functools import singledispatch
-from typing import Iterable, Union
+from typing import Iterable
 
 
 def _make_toc(lines: Iterable[str]) -> tuple[int,str]:
@@ -53,7 +55,7 @@ def _make_toc(lines: Iterable[str]) -> tuple[int,str]:
 
 
 @singledispatch
-def make_toc(lines: Union[list[str],str]) -> str:
+def make_toc(lines: list[str]|str) -> str:
     """Return the TOC contents."""
     return _make_toc(lines)[1]
 
