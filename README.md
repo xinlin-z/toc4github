@@ -16,7 +16,7 @@ I never tested! :)
 # Install
 
 ``` shell
-$ pip3 install toc4github
+$ pip install toc4github
 ```
 
 # Command Line Usage
@@ -30,7 +30,7 @@ of TOC section.
 When the placeholder line is ready:
 
 ``` shell
-$ python3 -m toc4github [--dryrun|-d] [--title|-t] <path/to/README.md>
+$ python -m toc4github [--dryrun|-d] [--title|-t] <path/to/README.md>
 ```
 
 Now, the placeholder line is replaced and expanded by TOC generated,
@@ -47,7 +47,7 @@ Different languages can be mixed, but I only tested English and Chinese.
 Here is an example:
 
 ``` shell
-$ python3 -m toc4github -dt text.txt
+$ python -m toc4github -dt text.txt
 # Table of Contents
 
 * [Hello](#Hello)
