@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-To generator TOC for Markdown file, like README.md of Github.
+To generate TOC for Markdown file, especially for README.md of Github.
 
 Author:   xinlin-z
 Github:   https://github.com/xinlin-z/toc4github
@@ -14,6 +14,9 @@ from functools import singledispatch
 from typing import Iterable
 
 
+MAX_HEAD_LEVEL = 6
+
+
 def _make_toc(lines: Iterable[str]) -> tuple[int,str]:
     toc = ''
     pos = -1
@@ -22,7 +25,7 @@ def _make_toc(lines: Iterable[str]) -> tuple[int,str]:
         # skip empty line
         if(line:=line.strip()) == '':
             continue
-        # skip code block started with 4 space
+        # skip block started with 4 space
         if line.startswith(' '*4):
             continue
         # skip ``` block
@@ -37,7 +40,7 @@ def _make_toc(lines: Iterable[str]) -> tuple[int,str]:
         # line search and make toc
         if strs:=re.match(r'\s*(#+)\s(.*)',line):
             h = strs.group(1)
-            if (hn:=len(h)) > 6:  # max head level is 6
+            if (hn:=len(h)) > MAX_HEAD_LEVEL:
                 continue
             rest = strs.group(2).strip()
             # remove markdown syntax elements ~*_
@@ -65,7 +68,7 @@ def _(strlines: str) -> str:
     return _make_toc(strlines.split('\n'))[1]
 
 
-_VER = 'toc4github V0.16 by xinlin-z with love'\
+_VER = 'toc4github V0.16 by xinlin-z'\
        ' (https://github.com/xinlin-z/toc4github)'
 
 
