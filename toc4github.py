@@ -21,6 +21,8 @@ def _make_toc(lines: Iterable[str]) -> tuple[int,str]:
     toc = ''
     pos = -1
     skip = 0
+    pattern_head = re.compile(r'\s*(#+)\s(.*)')
+    pattern_syn = re.compile(r'([~*_]{1,2})(.*)\1')
     for i,line in enumerate(lines):
         # skip empty line
         if(line:=line.strip()) == '':
@@ -38,18 +40,18 @@ def _make_toc(lines: Iterable[str]) -> tuple[int,str]:
             pos = i
             continue
         # line search and make toc
-        if strs:=re.match(r'\s*(#+)\s(.*)',line):
-            h = strs.group(1)
-            if (hn:=len(h)) > MAX_HEAD_LEVEL:
+        if strs:=re.match(pattern_head,line):
+            g1 = strs.group(1)
+            if (g1n:=len(g1)) > MAX_HEAD_LEVEL:
                 continue
-            rest = strs.group(2).strip()
+            g2 = strs.group(2).strip()
             # remove markdown syntax elements ~*_
-            while a:=re.search(r'([~*_]{1,2})(.*)\1',rest):
-                rest = rest[:a.start()] + a.group(2) + rest[a.end():]
-            rest = re.sub(r'\s', '-', rest)  # space --> -
-            rest = re.sub(r'[^-\w]', '', rest)  # squeeze other chars
-            toc += ''.join((' '*(hn-1)*4, '* ',
-                           '[',strs.group(2).strip(),'](#', rest,')'))+'\n'
+            while a:=re.search(pattern_syn,g2):
+                g2 = g2[:a.start()] + a.group(2) + g2[a.end():]
+            g2 = re.sub(r'\s', '-', g2)    # space --> -
+            r = re.sub(r'[^-\w]', '', g2)  # squeeze other chars
+            toc += ''.join((' '*(g1n-1)*4, '* ',
+                           '[',strs.group(2).strip(),'](#', r,')'))+'\n'
     else:
         if skip:
             raise ValueError('``` block is open.')
@@ -58,7 +60,7 @@ def _make_toc(lines: Iterable[str]) -> tuple[int,str]:
 
 
 @singledispatch
-def make_toc(lines: list[str]|str) -> str:
+def make_toc(lines: Iterable[str]|str) -> str:
     """Return the TOC contents."""
     return _make_toc(lines)[1]
 
