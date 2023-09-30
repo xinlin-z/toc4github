@@ -48,8 +48,11 @@ def _make_toc(lines: Iterable[str]) -> tuple[int,str]:
             # remove markdown syntax elements ~*_
             while a:=re.search(pattern_syn,g2):
                 g2 = g2[:a.start()] + a.group(2) + g2[a.end():]
-            g2 = re.sub(r'\s', '-', g2)    # space --> -
-            r = re.sub(r'[^-\w]', '', g2)  # squeeze other chars
+            # space to -
+            g2 = re.sub(r'\s', '-', g2)
+            # squeeze other chars
+            r = re.sub(r'[^-\w]', '', g2)
+            # join
             toc += ''.join((' '*(g1n-1)*4, '* ',
                            '[',strs.group(2).strip(),'](#', r,')'))+'\n'
     else:
@@ -86,16 +89,23 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     try:
+        # open and read
         with open(args.markdown_file) as f:
             lines = f.readlines()
+        # make toc
         pos, toc = _make_toc(lines)
+        # if add title
         toc = ('','# Table of Contents\n\n')[args.title] + toc
+        # if dryrun
         if args.dryrun:
             print(toc, end='')
             sys.exit(0)
+        # if no {toc} found
         if pos == -1:
             raise ValueError('No {toc} placeholder found!')
+        # insert toc
         lines[pos] = toc
+        # write back
         with open(args.markdown_file,'w') as f:
             f.write(''.join(lines))
     except Exception as e:
