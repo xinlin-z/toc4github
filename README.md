@@ -1,125 +1,43 @@
-# Table of Contents
+    * [Install](#Install)
+    * [Usage](#Usage)
+    * [Showcase](#Showcase)
 
-* [Intro](#Intro)
-* [Install](#Install)
-* [Command Line Usage](#Command-Line-Usage)
-* [API](#API)
-* [Showcase](#Showcase)
-
-# Intro
-
-Toc4github is a tiny tool to automatically generate Table of
-Contents (TOC) for Markdown file, like README.md in Github.com.
+The `toc4github` is a very tiny tool to automatically generate Table of
+Contents (TOC) for Markdown file, especially for README.md in Github.com.
 It might also be used for other markdown rendering system, but
 I never tested! :)
 
-# Install
+## Install
 
 ``` shell
 $ pip install toc4github
+$ python -m toc4github -h  # inline help
 ```
 
-# Command Line Usage
+## Usage
 
-You should insert a line of placeholder with content `{toc}` in README.md.
-
-The placeholder itself must be single line, and it most likely be
-at the beginning of markdown file. This is the start position
-of TOC section.
-
-When the placeholder line is ready:
+You should insert a placeholder which is `{toc}` in README.md. The
+placeholder ocuppies a whole line. Then:
 
 ``` shell
 $ python -m toc4github [--dryrun|-d] [--title|-t] <path/to/README.md>
 ```
 
-Now, the placeholder line is replaced and expanded by TOC generated,
-your markdown file is updated.
+Now, the placeholder is replaced by TOC generated, and your markdown
+file is updated.
 
-You can use `--dryrun(-d)` to check the generated TOC first, this option
-would only print out TOC, file is intact and nothing is changed.
-
-`--title(-t)` option is used if you need a title for TOC section.
-The title is fixed with `Table of Contents`, just like this README.md file.
-
-Different languages can be mixed, but I only tested English and Chinese.
-
-Here is an example:
-
-``` shell
-$ python -m toc4github -dt text.txt
-# Table of Contents
-
-* [Hello](#Hello)
-    * [Past 过去](#Past-过去)
-    * [Present 现在](#Present-现在)
-        * [Item-1](#Item-1)
-        * [Item-2](#Item-2)
-        * [Item-3](#Item-3)
-        * [Item-4](#Item-4)
-    * [Future 未来](#Future-未来)
-    * [中英文can mix哦](#中英文can-mix哦)
-```
-
-# API
-
-Or, you can call `make_toc` interface in your python code like:
+Or, you can call `make_toc` interface in your python code. It returns
+the TOC as string in accordance with input, and you can do anything
+you want with it.
 
 ``` python
->>> from toc4github import make_toc
->>>
->>> with open('text.txt') as f:
-...     lines = f.read()
-...
->>> print(lines)  # show original content
-{toc}
-
-# Hello
-
-Hi, here is a test.
-
-## Past 过去
-
-Past is full of bloody experiences and cheerful memories.
-
-## Present 现在
-
-Present is the only thing you have.
-
-### Item-1
-
-TODO
-
-### Item-2
-
-### Item-3
-
-### Item-4
-
-## Future 未来
-
-Future is created by your imagination.
-
-## 中英文can mix哦
-
->>> print(make_toc(lines))  # show TOC
-* [Hello](#Hello)
-    * [Past 过去](#Past-过去)
-    * [Present 现在](#Present-现在)
-        * [Item-1](#Item-1)
-        * [Item-2](#Item-2)
-        * [Item-3](#Item-3)
-        * [Item-4](#Item-4)
-    * [Future 未来](#Future-未来)
-    * [中英文can mix哦](#中英文can-mix哦)
->>>
+# how to import
+from toc4github import make_toc
+# signature
+make_toc(lines: Iterable[str]|str) -> str
 ```
 
-Interface `make_toc` only return the generated TOC, you should
-insert it to your file anywhere you like by yourself. And this
-is the only interface toc4github provides.
-
-# Showcase
+## Showcase
 
 ![toc4github](/showcase.png)
 
