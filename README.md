@@ -22,11 +22,11 @@ You should insert a placeholder which is `{toc}` in README.md. The
 placeholder ocuppies a whole line. Then:
 
 ``` shell
-$ python -m toc4github [--dryrun|-d] [--title|-t] <path/to/README.md>
+$ python -m toc4github [-d] [-t TITLE] <path/to/README.md>
 ```
 
-Now, the placeholder is replaced by TOC generated, and your markdown
-file is updated.
+Now, the placeholder is replaced by TOC generated with an optional title,
+and your markdown file is updated.
 
 Or, you can call `make_toc` interface in your python code. It returns
 the TOC as string in accordance with input, and you can do anything
