@@ -58,7 +58,13 @@ def _make_toc(lines: Iterable[str]) -> tuple[int,str]:
     else:
         if skip:
             raise ValueError('``` block is open.')
-
+    # remove extra leading spaces,
+    # for the case that head line is not started by level 1.
+    if toc != '':
+        lines = toc.split('\n')
+        if rem:=re.match(r'(\s*)',lines[0]):
+            rmn = len(rem.group(1))
+            toc = ''.join(h[rmn:]+'\n' for h in lines if h!='')
     return pos, toc
 
 

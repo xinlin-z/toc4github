@@ -101,11 +101,11 @@ class test_make_toc(unittest.TestCase):
         s = "# 中文效果"
         self.assertEqual('* ['+s[2:]+'](#'+s[2:]+')\n', make_toc(s))
         s = "## 中文效果"
-        self.assertEqual('    * ['+s[3:]+'](#'+s[3:]+')\n', make_toc(s))
+        self.assertEqual('* ['+s[3:]+'](#'+s[3:]+')\n', make_toc(s))
         s = "# 中EN混Mix"
         self.assertEqual('* ['+s[2:]+'](#'+s[2:]+')\n', make_toc(s))
-        s = "## 中EN混Mix"
-        self.assertEqual('    * ['+s[3:]+'](#'+s[3:]+')\n', make_toc(s))
+        s = "### 中EN混Mix"
+        self.assertEqual('* ['+s[4:]+'](#'+s[4:]+')\n', make_toc(s))
 
     def test_make_toc_5(self):
         s = '#abcde'
