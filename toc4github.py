@@ -79,7 +79,7 @@ def _(strlines: str) -> str:
     return _make_toc(strlines.split('\n'))[1]
 
 
-_VER = 'toc4github V0.16 by xinlin-z'\
+_VER = 'toc4github V0.17 by xinlin-z'\
        ' (https://github.com/xinlin-z/toc4github)'
 
 
@@ -87,9 +87,9 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('-V', '--version', action='version', version=_VER)
     parser.add_argument('-d','--dryrun', action='store_true',
-                        help='do not touch file, only show the TOC')
-    parser.add_argument('-t','--title', action='store_true',
-                        help='add a fixed title: Table of Contents')
+                        help='do not write input file, only show TOC')
+    parser.add_argument('-t','--title',
+                        help='add a customized title')
     parser.add_argument('markdown_file',
                         help='the input markdown file, like README.md')
     args = parser.parse_args()
@@ -101,7 +101,7 @@ if __name__ == '__main__':
         # make toc
         pos, toc = _make_toc(lines)
         # if add title
-        toc = ('','# Table of Contents\n\n')[args.title] + toc
+        toc = ('# '+args.title.strip()+'\n\n' if args.title else '') + toc
         # if dryrun
         if args.dryrun:
             print(toc, end='')

@@ -1,3 +1,5 @@
+# toc4github
+
 * [Install](#Install)
 * [Usage](#Usage)
 * [Showcase](#Showcase)

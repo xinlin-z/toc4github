@@ -10,6 +10,7 @@ def cmd(cmd, shell=False):
                           shell=shell,
                           stdout=subprocess.PIPE,
                           stderr=subprocess.PIPE)
+    assert proc.returncode == 0
     return proc.returncode
 
 
@@ -84,11 +85,11 @@ class test_make_toc(unittest.TestCase):
         fn = '__toc4github_test21.txt'
         with open(fn,'w') as f:
             f.write(raw)
-        cmd('python3 toc4github.py --title %s' % fn)
+        cmd('python3 toc4github.py --title "The Contents" %s' % fn, True)
         with open(fn) as f:
             cont = f.read()
-        self.assertEqual(cont, '# Table of Contents\n\n'+cooked+raw[6:])
         os.remove(fn)
+        self.assertEqual(cont, '# The Contents\n\n'+cooked+raw[6:])
 
     def test_make_toc_3(self):
         raw = """
