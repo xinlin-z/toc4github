@@ -1,6 +1,6 @@
-    * [Install](#Install)
-    * [Usage](#Usage)
-    * [Showcase](#Showcase)
+* [Install](#Install)
+* [Usage](#Usage)
+* [Showcase](#Showcase)
 
 The `toc4github` is a very tiny tool to automatically generate Table of
 Contents (TOC) for Markdown file, especially for README.md in Github.com.
