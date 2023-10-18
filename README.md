@@ -36,7 +36,7 @@ you want with it.
 # how to import
 from toc4github import make_toc
 # signature
-make_toc(lines: Iterable[str]|str) -> str
+def make_toc(lines: Iterable[str]|str) -> str: ...
 ```
 
 ## Showcase
