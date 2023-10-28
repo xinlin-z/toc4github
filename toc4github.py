@@ -14,6 +14,9 @@ from functools import singledispatch
 from typing import Iterable
 
 
+__all__ = ['make_toc']
+
+
 MAX_HEAD_LEVEL = 6
 
 
